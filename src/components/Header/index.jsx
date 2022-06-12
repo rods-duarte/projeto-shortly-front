@@ -2,11 +2,16 @@ import styled from 'styled-components';
 
 import logo from '../../assets/images/Logo.svg';
 
-export default function Header() {
+export default function Header({name}) {
+
+  const message = name ? `Seja bem vindo ${name} !` : '';
+
   return (
     <HeaderContainer>
       <Navbar>
-        <Welcome>Seja Bem Vindo Pessoa !</Welcome>
+        <Welcome>
+          {message}
+        </Welcome>
 
         <Options>
           <button type="button">Home</button>
