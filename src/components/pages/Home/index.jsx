@@ -123,5 +123,6 @@ const LinksList = styled.ul`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  row-gap: 20px;
   margin-top: 50px;
 `

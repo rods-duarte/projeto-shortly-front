@@ -27,7 +27,7 @@ export default function Ranking() {
 
     return (
         <RankingPage>
-            <Header name={user?.name}/>
+            <Header active="signin"/>
             <Title>
                 <img src={trophyIcon} alt="Trofeu" />
                 <h1>Ranking</h1>

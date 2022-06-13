@@ -49,7 +49,7 @@ export default function SignIn() {
 
   return (
     <SignUpPage> 
-      <Header />
+      <Header active="signin"/>
       <form onSubmit={handleSignup}> 
         <input 
           type="email" 

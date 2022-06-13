@@ -53,7 +53,7 @@ export default function SignUp() {
 
   return (
     <SignUpPage> 
-      <Header />
+      <Header active="signup"/>
       <form onSubmit={handleSignup}> 
         <input 
           type="text" 

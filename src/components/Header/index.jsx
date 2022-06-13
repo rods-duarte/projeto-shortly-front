@@ -1,10 +1,33 @@
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import TokenContext from '../../contexts/tokenContext';
+import UserContext from '../../contexts/userContext';
 
 import logo from '../../assets/images/Logo.svg';
 
-export default function Header({name}) {
+export default function Header({active}) {
+  const { token, setToken } = useContext(TokenContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const message = name ? `Seja bem vindo ${name} !` : '';
+  function Logout() {
+    setToken(null);
+    setUser(null);
+  }
+
+  const message = user?.name ? `Seja bem vindo ${user.name} !` : '';
+  const options = user?.name ? (
+    <Options>
+      <button type="button"><Link to="/home">Home</Link></button>
+      <button type="button"><Link to="/">Ranking</Link></button>
+      <button type="button" onClick={Logout} className='logout'><Link to="/">Sair</Link></button>
+    </Options>) : (
+    <Options>
+      <button type="button"><Link to="/signin" className={active === 'signin' ? 'active' : undefined}>Entrar</Link></button>
+      <button type="button"><Link to="/signup" className={active === 'signup' ? 'active' : undefined}>Cadastre-se</Link></button>
+    </Options>
+  )
 
   return (
     <HeaderContainer>
@@ -14,9 +37,7 @@ export default function Header({name}) {
         </Welcome>
 
         <Options>
-          <button type="button">Home</button>
-          <button type="button">Ranking</button>
-          <button type="button">Sair</button>
+          {options}
         </Options>
       </Navbar>
       <LogoContainer>
@@ -64,5 +85,18 @@ const Options = styled.div`
     border: none;
     background-color: #0000;
     color: #9c9c9c;
+  }
+
+  a {
+    text-decoration: none;
+    color: #9c9c9c;
+  }
+
+  .active {
+    color: #5D9040;
+  }
+
+  .logtout {
+    text-decoration: underline;
   }
 `;
