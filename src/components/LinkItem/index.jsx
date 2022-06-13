@@ -1,12 +1,35 @@
+import axios from 'axios';
+import { useContext } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
 import styled from 'styled-components';
+
+import TokenContext from '../../contexts/tokenContext';
 
 import deleteIcon from '../../assets/images/delete.svg';
 
 export default function LinkItem({ shortenedUrl }) {
+    const { token } = useContext(TokenContext);
 
     function addToClipboard(shortUrl) {
         const URL = `http://localhost:4000/urls/open/${shortUrl}`
         navigator.clipboard.writeText(URL);
+    }
+
+    function deleteLink(id) {
+        const URL = `http://localhost:4000/urls/${id}`;
+        axios.delete(URL, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }).catch(err => confirmAlert({
+            message: `Erro ${err.response.data}`,
+            buttons: [
+                {
+                    label: 'Ok',
+                    onClick: () => null
+                }
+            ]
+        }))
     }
 
     const { shortUrl, url, visitCount } = shortenedUrl;
@@ -23,7 +46,7 @@ export default function LinkItem({ shortenedUrl }) {
                 {`Quantidade de visitas: ${visitCount}`}
             </Visits>
         </Data> 
-        <DeleteBtn>
+        <DeleteBtn onClick={() => deleteLink(shortenedUrl.id)}>
             <img src={deleteIcon} alt="Delete" />
         </DeleteBtn>
     </Link>

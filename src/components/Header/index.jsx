@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useEffect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import TokenContext from '../../contexts/tokenContext';
@@ -8,12 +8,16 @@ import UserContext from '../../contexts/userContext';
 import logo from '../../assets/images/Logo.svg';
 
 export default function Header({active}) {
+  const navigate = useNavigate();
   const { token, setToken } = useContext(TokenContext);
   const { user, setUser } = useContext(UserContext);
 
   function Logout() {
-    setToken(null);
-    setUser(null);
+    setTimeout(() => {
+      setToken(null);
+      setUser(null);
+    }, 500);
+    navigate('/');
   }
 
   const message = user?.name ? `Seja bem vindo ${user.name} !` : '';
@@ -21,7 +25,7 @@ export default function Header({active}) {
     <Options>
       <button type="button"><Link to="/home">Home</Link></button>
       <button type="button"><Link to="/">Ranking</Link></button>
-      <button type="button" onClick={Logout} className='logout'><Link to="/">Sair</Link></button>
+      <button type="button" onClick={Logout} className='logout'>Sair</button>
     </Options>) : (
     <Options>
       <button type="button"><Link to="/signin" className={active === 'signin' ? 'active' : undefined}>Entrar</Link></button>
@@ -41,7 +45,7 @@ export default function Header({active}) {
         </Options>
       </Navbar>
       <LogoContainer>
-        <img src={logo} alt="" />
+        <Link to='/'><img src={logo} alt="Shortly LOGO" /></Link>
       </LogoContainer>
     </HeaderContainer>
   );
@@ -96,7 +100,7 @@ const Options = styled.div`
     color: #5D9040;
   }
 
-  .logtout {
-    text-decoration: underline;
+  .logout {
+    text-decoration: underline !important; 
   }
 `;

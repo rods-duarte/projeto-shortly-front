@@ -16,6 +16,7 @@ export default function Home() {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
+
     const { userId } = jwt_decode(token);
     const URL = `http://localhost:4000/users/${userId}`;
 
@@ -37,7 +38,7 @@ export default function Home() {
         ]
       })
     })
-  }, []);
+  }, [user?.shortenedUrls]);
 
   function createShortUrl() {
     const URL = `http://localhost:4000/urls/shorten`;

@@ -36,7 +36,7 @@ export default function Ranking() {
                 {rankListContent}
             </RankingList>
             <Footer>
-                {footerContent}
+                <Link to={'/signup'}>{footerContent}</Link>
             </Footer>
         </RankingPage>
     )
@@ -92,5 +92,10 @@ const Footer = styled.footer`
     a {
         text-decoration: none;
         color: #000;
+    }
+
+    a:hover {
+        color: #3b3b3b;
+        transition: all .25s ease-in;
     }
 `
