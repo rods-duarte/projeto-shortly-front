@@ -8,12 +8,12 @@ import Header from "../../Header";
 import LinkItem from "../../LinkItem";
 
 import TokenContext from "../../../contexts/tokenContext";
+import UserContext from "../../../contexts/userContext";
 
 export default function Home() {
   const { token } = useContext(TokenContext);
   const [ url, setUrl ] = useState('');
-  const [ userName, setUserName ] = useState('');
-  const [ userData, setUserData ] = useState(null);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const { userId } = jwt_decode(token);
@@ -24,16 +24,15 @@ export default function Home() {
         authorization: `Bearer ${token}`
       }
     }).then(response => {
-      const user = response.data;
-      setUserData(user);
-      setUserName(user.name);
+      const { data } = response;
+      setUser({...data});
     }).catch(err => {
       confirmAlert({
         message: 'Sua sessao foi encerrada, faca login pra continuar',
         buttons: [
           {
             label: 'Ok',
-            onClick: () => null
+            onClick: () => null //! USAR NAVIGATE
           }
         ]
       })
@@ -65,11 +64,12 @@ export default function Home() {
       alert('Link invalido');
     })
   }
-
+  console.log(user);
+  const links = user?.shortenedUrls.map(urlObj => <LinkItem shortenedUrl={urlObj}></LinkItem>)
 
   return (
     <HomePage>
-      <Header name={userName}/>
+      <Header name={user?.name}/>
       <form onSubmit={createShortUrl}>
         <input 
         type="text" 
@@ -82,7 +82,7 @@ export default function Home() {
         <button type="submit">Encurtar link</button>
       </form>
       <LinksList>
-        {userData.shortenedUrls.map(urlObj => <LinkItem shortenedUrl={urlObj}></LinkItem>)}
+        {links}
       </LinksList>
     </HomePage>
   );

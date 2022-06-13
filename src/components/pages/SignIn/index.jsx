@@ -40,7 +40,7 @@ export default function SignIn() {
     const URL = `http://localhost:4000/signin`
     axios.post(URL, signinData).then(response => {
       setToken(response.data);
-      navigate('/');
+      navigate('/home');
     }).catch(err => console.log(err));
     setLoading(false);
 
